@@ -8,4 +8,8 @@ object CityConstants {
 
 object EuropeMapConstants {
     const val GRID_SIZE = 10
+
+    const val MAX_COUNTRIES_QUANTITY = 20
+
+    const val MAX_COUNTRY_NAME_LENGTH = 25
 }

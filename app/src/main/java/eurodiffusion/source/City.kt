@@ -4,7 +4,7 @@ import eurodiffusion.source.CityConstants.INITIAL_BALANCE
 import eurodiffusion.source.CityConstants.REPRESENTATIVE_PORTION
 
 class City(
-    countryName: String,
+    private val countryName: String,
     private val motifCount: Int,
 ) {
     private val neighbors: MutableList<City> = mutableListOf()
@@ -39,6 +39,14 @@ class City(
             balance[motif] = (balance[motif] ?: 0) + incomeBalance[motif]!!
             incomeBalance[motif] = 0
         }
+    }
+
+    fun hasBorder(countryName: String): Boolean {
+        for (neighbor in neighbors) {
+            if (neighbor.countryName != countryName)
+                return true
+        }
+        return false
     }
 
     private fun addIncomeBalance(motif: String, amount: Int) {

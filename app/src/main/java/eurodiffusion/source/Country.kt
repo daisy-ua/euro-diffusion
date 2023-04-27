@@ -26,4 +26,12 @@ class Country(
     }
 
     fun addCity(city: City) = cities.add(city)
+
+    fun hasBorder(countryName: String): Boolean {
+        for (city in cities) {
+            if (city.hasBorder(countryName))
+                return true
+        }
+        return false
+    }
 }

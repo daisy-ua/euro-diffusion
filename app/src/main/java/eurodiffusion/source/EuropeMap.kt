@@ -3,7 +3,7 @@ package eurodiffusion.source
 import eurodiffusion.source.EuropeMapConstants.GRID_SIZE
 
 class EuropeMap(
-    private val countries: List<Country>,
+    val countries: List<Country>,
 ) {
     private val grid: Array<Array<City?>> = Array(GRID_SIZE + 2) { Array(GRID_SIZE + 2) { null } }
 
@@ -13,15 +13,8 @@ class EuropeMap(
         }
 
         setupCityNeighbors()
-    }
 
-    fun printResult() {
-        disseminateCoins()
-        println("---------")
-        val sortedCountries = countries.sortedWith(compareBy({ it.daysToComplete }, { it.name }))
-        for (country in sortedCountries) {
-            println("${country.name} ${country.daysToComplete}")
-        }
+        validateGrid()
     }
 
     fun disseminateCoins() {
@@ -92,5 +85,15 @@ class EuropeMap(
                 }
             }
         }
+    }
+
+    private fun validateGrid() {
+        if (countries.size == 1) return
+        for (country in countries) {
+            if (country.hasBorder(country.name)) {
+                return
+            }
+        }
+        throw Exception("Countries cannot be connected!")
     }
 }

@@ -2,19 +2,34 @@ package eurodiffusion
 
 import eurodiffusion.source.Country
 import eurodiffusion.source.EuropeMap
+import java.lang.Exception
 
 fun main() {
+    val inputCases: List<List<Country>>?
 
-    val numberOfCountries = 3
+    try {
+        inputCases = parseInputFile()
+    } catch (e: Exception) {
+        println(e.message)
+        return
+    }
 
-    val country1 = Country("France", 1, 4, 4, 6)
-    val country2 = Country("Spain", 3, 1, 6, 3)
-    val country3 = Country("Portugal", 1, 1, 2, 2)
+    for ((index, case) in inputCases.withIndex()) {
+        println("\nCase Number ${index + 1}")
+        try {
+            val map = EuropeMap(case)
+            map.disseminateCoins()
 
-    EuropeMap(listOf(country1, country2, country3)).printResult()
+            displayResults(map.countries)
+        } catch (e: Exception) {
+            println(e.message)
+        }
+    }
+}
 
-//    val c2 = Country("Belgium", 1, 1, 2, 2)
-//    val c = Country("Netherlands", 1, 3, 2, 4)
-//    EuropeMap(listOf(c2, c)).printResult()
-
+private fun displayResults(countries: List<Country>) {
+    val sortedCountries = countries.sortedWith(compareBy({ it.daysToComplete }, { it.name }))
+    for (country in sortedCountries) {
+        println("${country.name} ${country.daysToComplete}")
+    }
 }
